@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: jenkins
+  source:
+    repoURL: https://github.com/terop1989/k8s-working.git
+    targetRevision: master
+    path: 03-jenkins-deploy/helm
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jenkins
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
